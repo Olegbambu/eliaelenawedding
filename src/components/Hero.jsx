@@ -44,13 +44,13 @@ export default function Hero() {
     let animationFrameId = null
     let shootingStarTimer = null
     let isVisible = false
-    let width = (canvas.width = window.innerWidth)
-    let height = (canvas.height = window.innerHeight)
+    let width = (canvas.width = canvas.clientWidth)
+    let height = (canvas.height = canvas.clientHeight)
 
     const handleResize = () => {
       if (!canvas) return
-      width = canvas.width = window.innerWidth
-      height = canvas.height = window.innerHeight
+      width = canvas.width = canvas.clientWidth
+      height = canvas.height = canvas.clientHeight
     }
     window.addEventListener('resize', handleResize)
 
@@ -192,13 +192,13 @@ export default function Hero() {
     <section
       ref={heroRef}
       id="hero"
-      className="min-h-dvh w-full bg-lalaland-hero flex flex-col items-center justify-center pt-24 pb-12 px-4 text-center relative overflow-hidden select-none"
+      className="min-h-svh w-full bg-lalaland-hero flex flex-col items-center justify-center pt-24 pb-12 px-4 text-center relative overflow-hidden select-none"
     >
-      <div className="absolute inset-0 z-0 h-dvh w-full pointer-events-none overflow-hidden md:hidden">
+      <div className="absolute inset-0 z-0 h-svh w-full pointer-events-none overflow-hidden md:hidden">
         <img
           src={constellationMobile}
           alt="Costellazione Mobile"
-          className="bg-constellation-mobile w-full h-dvh object-cover object-center mix-blend-screen"
+          className="bg-constellation-mobile w-full h-svh object-cover object-center mix-blend-screen"
         />
       </div>
 
@@ -212,7 +212,7 @@ export default function Hero() {
 
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-dvh pointer-events-none z-10"
+        className="absolute inset-0 w-full h-svh pointer-events-none z-10"
       />
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-150 bg-star-yellow/10 rounded-full blur-hero-glow pointer-events-none z-10" />
