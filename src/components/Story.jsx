@@ -181,6 +181,7 @@ export default function Story() {
     const ctx = gsap.context(() => {
       const pages = gsap.utils.toArray('.book__page')
       const totalPages = pages.length
+      const scrollPercentPerPage = 70
 
       pages.forEach((page) => {
         gsap.set(page, {
@@ -194,7 +195,7 @@ export default function Story() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: `+=${(totalPages - 1) * 100}%`,
+          end: `+=${(totalPages - 1) * scrollPercentPerPage}%`,
           scrub: true,
           pin: true,
           invalidateOnRefresh: true,
