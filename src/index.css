@@ -91,12 +91,9 @@ h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 400; }
 }
 
 .butterfly-backdrop {
-  position: absolute;
+  position: fixed;
   z-index: 0;
-  top: 100dvh;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   overflow: hidden;
   pointer-events: none;
 }
