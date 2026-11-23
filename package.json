@@ -33,6 +33,7 @@
     "globals": "^17.13.0",
     "postcss": "^8.5.31",
     "tailwindcss": "^4.3.3",
-    "vite": "^8.3.5"
+    "vite": "^8.3.5",
+    "vite-imagetools": "^12.0.2"
   }
 }

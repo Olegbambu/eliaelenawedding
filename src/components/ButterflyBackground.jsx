@@ -1,12 +1,9 @@
+// A few small butterflies along the page edges, kept away from the content column.
 const butterflies = [
-  { top: '8%', left: '17%', size: 152, delay: '-2s', color: '#7ef7a3', duration: '13s' },
-  { top: '21%', left: '81%', size: 138, delay: '-10s', color: '#ffe65d', duration: '16s' },
-  { top: '34%', left: '43%', size: 132, delay: '-8s', color: '#ffa7d5', duration: '16s' },
-  { top: '47%', left: '88%', size: 158, delay: '-6s', color: '#73eced', duration: '15s' },
-  { top: '60%', left: '21%', size: 152, delay: '-5s', color: '#ffed59', duration: '14s' },
-  { top: '73%', left: '65%', size: 142, delay: '-12s', color: '#9aff7c', duration: '18s' },
-  { top: '86%', left: '39%', size: 148, delay: '-11s', color: '#69e8ec', duration: '17s' },
-  { top: '96%', left: '78%', size: 146, delay: '-3s', color: '#73eced', duration: '15s' },
+  { top: '22%', left: '3%', size: 64, delay: '-2s', color: '#7ef7a3', duration: '15s' },
+  { top: '48%', left: '97%', size: 56, delay: '-9s', color: '#ffa7d5', duration: '17s' },
+  { top: '71%', left: '3%', size: 60, delay: '-5s', color: '#ffe65d', duration: '16s' },
+  { top: '88%', left: '97%', size: 52, delay: '-12s', color: '#73eced', duration: '18s' },
 ]
 
 export default function ButterflyBackground() {

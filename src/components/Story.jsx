@@ -1,216 +1,181 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import DraftBadge from './DraftBadge'
+import PhotoModal from './PhotoModal'
+import Sparkle from './Sparkle'
+import { story } from '../content'
+import { getPhoto, photos } from '../lib/photos'
 
-const excludedPhotoFiles = new Set([
-  'constellation-desktop.png',
-  'constellation-mobile.png',
-  'flowers.png',
-])
-const photoAssets = Object.entries(
-  import.meta.glob('../assets/*', { eager: true, query: '?url', import: 'default' })
-)
-  .filter(([path]) => {
-    const filename = path.split('/').pop()
-    return /\.(jpe?g|png|webp|avif|gif|heic|heif|tiff?)$/i.test(filename)
-      && !excludedPhotoFiles.has(filename)
-  })
-  .sort(([pathA], [pathB]) => {
-    const filenameA = pathA.split('/').pop()
-    const filenameB = pathB.split('/').pop()
-    if (filenameA === 'SAM_7966_Original.JPG') return -1
-    if (filenameB === 'SAM_7966_Original.JPG') return 1
-    return filenameA.localeCompare(filenameB, undefined, { numeric: true })
-  })
-const albumPhotos = photoAssets.map(([, image], index) => ({
-  id: index + 1,
-  image,
-  title: `Foto ${index + 1}`,
+gsap.registerPlugin(ScrollTrigger)
+
+const tilts = ['-rotate-2', 'rotate-2', '-rotate-1', 'rotate-1']
+
+// Every photo in reading order: timeline photos first, then the strip.
+const storyFiles = story.flatMap((item) => item.photos)
+const stripPhotos = photos.filter((photo) => !storyFiles.includes(photo.file))
+const gallery = [...storyFiles.map(getPhoto).filter(Boolean), ...stripPhotos].map((photo, index) => ({
+  ...photo,
+  alt: `Elia ed Elena, foto ${index + 1}`,
 }))
-const photosPerGarland = 2
-const photoGarlands = Array.from(
-  { length: Math.ceil(albumPhotos.length / photosPerGarland) },
-  (_, index) => albumPhotos.slice(index * photosPerGarland, (index + 1) * photosPerGarland)
-)
+const galleryIndex = new Map(gallery.map((photo, index) => [photo.file, index]))
 
-function PhotoModal({ photo, onClose, onPrevious, onNext, returnFocusRef }) {
-  const dialogRef = useRef(null)
-
-  useEffect(() => {
-    const previousBodyOverflow = document.body.style.overflow
-    const previousDocumentOverflow = document.documentElement.style.overflow
-    const dialog = dialogRef.current
-    const returnFocusTarget = returnFocusRef.current
-    if (!dialog) return
-    const handleKeyDown = (event) => {
-      if (event.key === 'Escape') onClose()
-      if (event.key === 'ArrowLeft') onPrevious()
-      if (event.key === 'ArrowRight') onNext()
-    }
-
-    document.body.style.overflow = 'hidden'
-    document.documentElement.style.overflow = 'hidden'
-    window.lenis?.stop()
-    dialog.showModal()
-
-    const handleCancel = (event) => {
-      event.preventDefault()
-      onClose()
-    }
-    dialog.addEventListener('cancel', handleCancel)
-    window.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      dialog.removeEventListener('cancel', handleCancel)
-      window.removeEventListener('keydown', handleKeyDown)
-      if (dialog.open) dialog.close()
-      returnFocusTarget?.focus({ preventScroll: true })
-      document.body.style.overflow = previousBodyOverflow
-      document.documentElement.style.overflow = previousDocumentOverflow
-      window.lenis?.start()
-    }
-  }, [onClose, onPrevious, onNext, returnFocusRef])
-
-  return createPortal(
-    <dialog
-      ref={dialogRef}
-      className="photo-modal"
-      aria-label={`Foto ingrandita: ${photo.title}`}
-      onClick={(event) => {
-        if (event.target === event.currentTarget) onClose()
-      }}
-    >
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Chiudi foto"
-        className="absolute right-4 top-4 z-10 flex size-12 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 cursor-pointer"
-      >
-        <X className="size-6" aria-hidden="true" />
-      </button>
-      <img
-        src={photo.image}
-        alt={photo.title}
-        className="photo-modal__image"
-      />
-      <button
-        type="button"
-        onClick={onPrevious}
-        aria-label="Foto precedente"
-        className="absolute left-3 top-1/2 z-10 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 cursor-pointer"
-      >
-        <ChevronLeft className="size-7" aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        onClick={onNext}
-        aria-label="Foto successiva"
-        className="absolute right-3 top-1/2 z-10 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 cursor-pointer"
-      >
-        <ChevronRight className="size-7" aria-hidden="true" />
-      </button>
-      <p className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-4 py-1 text-sm text-white" aria-live="polite">
-        {photo.id} / {albumPhotos.length}
-      </p>
-    </dialog>,
-    document.body
+function Photo({ photo, tilt, onOpen }) {
+  return (
+    <button type="button" className="photo-button" onClick={(event) => onOpen(photo.file, event.currentTarget)}>
+      <span className={`polaroid ${tilt}`}>
+        <img
+          srcSet={photo.srcSet}
+          sizes="(min-width: 768px) 15rem, 60vw"
+          src={photo.src}
+          alt={photo.alt}
+          loading="lazy"
+          decoding="async"
+        />
+      </span>
+      <span className="sr-only">Ingrandisci</span>
+    </button>
   )
 }
 
 export default function Story() {
   const sectionRef = useRef(null)
-  const [selectedPhoto, setSelectedPhoto] = useState(null)
   const lastTriggerRef = useRef(null)
-  const closePhoto = useCallback(() => setSelectedPhoto(null), [])
-  const showRelativePhoto = useCallback((step) => {
-    setSelectedPhoto((current) => {
-      if (!current) return current
-      const index = (current.id - 1 + step + albumPhotos.length) % albumPhotos.length
-      return albumPhotos[index]
-    })
+  const stripRef = useRef(null)
+  const [openIndex, setOpenIndex] = useState(null)
+
+  const openPhoto = useCallback((file, trigger) => {
+    lastTriggerRef.current = trigger
+    setOpenIndex(galleryIndex.get(file) ?? 0)
   }, [])
-  const showPreviousPhoto = useCallback(() => showRelativePhoto(-1), [showRelativePhoto])
-  const showNextPhoto = useCallback(() => showRelativePhoto(1), [showRelativePhoto])
+  const closePhoto = useCallback(() => setOpenIndex(null), [])
+  const scrollStrip = (direction) => {
+    const strip = stripRef.current
+    if (!strip) return
+    const card = strip.firstElementChild
+    const step = card ? card.getBoundingClientRect().width + 20 : strip.clientWidth * 0.8
+    strip.scrollBy({ left: direction * step * 2, behavior: 'smooth' })
+  }
 
   useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const ctx = gsap.context(() => {
+      // The line between the stars draws itself as you read down the story.
+      gsap.fromTo(
+        '.story-line',
+        { scaleY: reduceMotion ? 1 : 0 },
+        {
+          scaleY: 1,
+          ease: 'none',
+          scrollTrigger: { trigger: '.story-list', start: 'top 70%', end: 'bottom 70%', scrub: 0.6 },
+        }
+      )
 
-    const handlePhotoClick = (event) => {
-      if (!(event.target instanceof Element)) return
-      const photoButton = event.target.closest('[data-photo-id]')
-      if (!photoButton) return
-
-      const photo = albumPhotos.find((item) => item.id === Number(photoButton.dataset.photoId))
-      if (photo) {
-        lastTriggerRef.current = photoButton
-        setSelectedPhoto(photo)
-      }
-    }
-
-    section.addEventListener('click', handlePhotoClick)
-    return () => section.removeEventListener('click', handlePhotoClick)
+      gsap.utils.toArray('.story-item').forEach((item) => {
+        ScrollTrigger.create({
+          trigger: item,
+          start: 'top 70%',
+          onEnter: () => item.classList.add('is-lit'),
+          onLeaveBack: () => item.classList.remove('is-lit'),
+        })
+      })
+    }, sectionRef)
+    return () => ctx.revert()
   }, [])
 
-  const renderPhoto = (item) => (
-    <button
-      key={item.id}
-      type="button"
-      data-photo-id={item.id}
-      aria-label={`Ingrandisci ${item.title}`}
-      className="photo-garland__photo group"
-    >
-      <span className="photo-garland__bulb" aria-hidden="true" />
-      <span className="photo-garland__cord" aria-hidden="true" />
-      <span className="photo-garland__frame">
-        <img
-          src={item.image}
-          alt={item.title}
-          loading="lazy"
-          decoding="async"
-          fetchPriority="low"
-        />
-      </span>
-    </button>
-  )
-
   return (
-    <section
-      ref={sectionRef}
-      id="story"
-      className="photo-story relative flex min-h-screen w-full flex-col items-center px-4 py-20 text-star-white"
-    >
-      <div className="w-full max-w-6xl">
-        <header className="mb-12 text-center md:mb-16">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-white drop-shadow-hero-title">
-            I nostri ricordi
-          </p>
-          <h2 className="font-heading text-5xl text-white drop-shadow-hero-title md:text-7xl">
-            Il nostro album
-          </h2>
-          <p className="mt-3 text-base text-white drop-shadow-hero-title md:text-lg">
-            Piccoli momenti appesi alla nostra storia. Tocca una foto per ingrandirla.
-          </p>
-        </header>
-        <div className="photo-garlands">
-          {photoGarlands.map((garland, index) => (
-            <div
-              key={`garland-${index + 1}`}
-              className="photo-garland"
-              role="group"
-              aria-label={`Filo di foto ${index + 1}`}
-            >
-              {garland.map(renderPhoto)}
-            </div>
-          ))}
-        </div>
+    <section ref={sectionRef} id="storia" className="relative w-full py-20 md:py-28">
+      <div className="mx-auto max-w-5xl px-5">
+        <h2 className="text-center text-6xl text-ink md:text-7xl">La nostra storia</h2>
+
+        <ol className="story-list relative mt-14 md:mt-20">
+          <span
+            className="absolute top-2 bottom-2 left-[0.6875rem] w-px bg-ink-soft/15 md:left-1/2"
+            aria-hidden="true"
+          />
+          <span
+            className="story-line absolute top-2 bottom-2 left-[0.6875rem] w-px bg-linear-to-b from-star via-star-soft to-sunset-300 md:left-1/2"
+            aria-hidden="true"
+          />
+
+          {story.map((item, index) => {
+            const isRight = index % 2 === 1
+            const itemPhotos = item.photos.map(getPhoto).filter(Boolean).map((p) => gallery[galleryIndex.get(p.file)])
+            return (
+              <li
+                key={item.title}
+                className="story-item group relative grid gap-5 pb-14 pl-10 last:pb-0 md:grid-cols-2 md:gap-16 md:pl-0"
+              >
+                <span
+                  className="absolute top-1.5 left-0 flex size-6 items-center justify-center md:left-1/2 md:-translate-x-1/2"
+                  aria-hidden="true"
+                >
+                  <Sparkle className="size-4 text-ink-soft/40 transition-all duration-500 ease-out-expo group-[.is-lit]:scale-150 group-[.is-lit]:text-star group-[.is-lit]:drop-shadow-[0_0_8px_rgb(255_228_94_/_80%)]" />
+                </span>
+
+                <div className={`md:pt-0 ${isRight ? 'md:order-2 md:pl-2' : 'md:pr-2 md:text-right'}`}>
+                  <h3 className="text-5xl text-ink">
+                    {item.title}
+                    <DraftBadge show={item.placeholder} />
+                  </h3>
+                  <p className="mt-2 font-bold text-ink-soft">
+                    <time>{item.date}</time>
+                  </p>
+                  <p className="mt-3 max-w-prose text-ink-soft md:inline-block">{item.text}</p>
+                </div>
+
+                {itemPhotos.length > 0 && (
+                  <div
+                    className={`grid max-w-sm gap-4 ${itemPhotos.length > 1 ? 'grid-cols-2' : 'w-2/3 sm:w-1/2 md:w-60'} ${
+                      isRight ? 'md:order-1 md:justify-self-end' : ''
+                    }`}
+                  >
+                    {itemPhotos.map((photo, photoIndex) => (
+                      <Photo key={photo.file} photo={photo} tilt={tilts[(index + photoIndex) % tilts.length]} onOpen={openPhoto} />
+                    ))}
+                  </div>
+                )}
+              </li>
+            )
+          })}
+        </ol>
       </div>
-      {selectedPhoto && (
+
+      {stripPhotos.length > 0 && (
+        <div className="mt-20">
+          <h3 className="px-5 text-center text-5xl text-ink">Altri ricordi</h3>
+          <p className="mt-2 px-5 text-center text-ink-soft">
+            <span className="md:hidden">Scorri di lato e tocca una foto per ingrandirla.</span>
+            <span className="hidden md:inline">Usa le frecce per scorrere e clicca una foto per ingrandirla.</span>
+          </p>
+          <div className="mt-4 hidden justify-center gap-3 md:flex">
+            <button type="button" onClick={() => scrollStrip(-1)} aria-label="Foto precedenti" className="btn-ghost size-12 px-0">
+              <ChevronLeft className="size-6" aria-hidden="true" />
+            </button>
+            <button type="button" onClick={() => scrollStrip(1)} aria-label="Foto successive" className="btn-ghost size-12 px-0">
+              <ChevronRight className="size-6" aria-hidden="true" />
+            </button>
+          </div>
+          <div ref={stripRef} className="photo-strip mx-auto mt-2 max-w-6xl" data-lenis-prevent-wheel>
+            {stripPhotos.map((photo, index) => (
+              <Photo
+                key={photo.file}
+                photo={gallery[galleryIndex.get(photo.file)]}
+                tilt={tilts[index % tilts.length]}
+                onOpen={openPhoto}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {openIndex !== null && (
         <PhotoModal
-          photo={selectedPhoto}
+          photos={gallery}
+          index={openIndex}
+          onChange={setOpenIndex}
           onClose={closePhoto}
-          onPrevious={showPreviousPhoto}
-          onNext={showNextPhoto}
           returnFocusRef={lastTriggerRef}
         />
       )}

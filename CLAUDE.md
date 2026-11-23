@@ -13,10 +13,12 @@ Node >= 22.12 required.
 
 ## Layout
 
-- `src/App.jsx` — composes the sections
-- `src/components/` — one file per section (Hero, Story, Details, Rsvp, Gifts, Footer, Navbar) plus decorative pieces (ButterflyBackground, WeddingLogo)
-- `src/assets/` — photos and images, imported from components
-- `public/` — static files served as-is
+- `src/content.js` — all site copy (programme, story, FAQ, venue, IBAN). Entries with `placeholder: true` are invented sample text; in `npm run dev` they show a pink "bozza" badge. Replace them before publishing.
+- `src/App.jsx` — page order: Hero, Schedule (programma + dove), Rsvp, Story (timeline + photo strip), Faq, Gifts, Footer
+- `src/components/` — one file per section, plus Constellation (hero signature animation), PhotoModal, DraftBadge
+- `src/lib/photos.js` — all photos in `src/assets`, converted to WebP sizes by `vite-imagetools`
+- `src/assets/` — photos and the constellation illustration
+- `PRODUCT.md` — product truth (audience, constraints, brand commitments) used by the impeccable design skill
 
 ## Environment
 
