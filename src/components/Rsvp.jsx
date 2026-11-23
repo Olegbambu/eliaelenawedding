@@ -30,7 +30,7 @@ export default function Rsvp({ children }) {
     event.preventDefault()
     const form = event.currentTarget
     const formData = new FormData(form)
-    formData.append('access_key', 'dbe169cd-f99a-43a0-a900-b2000ac00bc5')
+    formData.append('access_key', import.meta.env.VITE_WEB3FORMS_ACCESS_KEY)
     setIsSubmitting(true)
     setResult('')
 
