@@ -3,6 +3,7 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Rsvp from './Rsvp'
 import Gifts from './Gifts'
+import { MapPin } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -45,15 +46,25 @@ export default function Details() {
 
         <div className="detail-card rounded-2xl p-6 text-center glass-card md:p-8">
           <h3 className="mb-4 font-heading text-4xl text-star-white">Dove?</h3>
-          <p className="mb-8 text-sm text-star-white">
-            La cerimonia e l&apos;evento si terranno presso Parco della Vittoria a PADOVA:
+          <p className="mb-6 text-sm text-star-white">
+            La cerimonia e il ricevimento si terranno al Parco della Vittoria:
             <br />
-            Via Bigolo 17/19, Trebaseleghe, Italy, 35010
+            <span className="font-bold">Via Bigolo 17/19, 35010 Trebaseleghe (PD)</span>
           </p>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Parco+della+Vittoria+Via+Bigolo+17+Trebaseleghe"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mb-6 inline-flex min-h-11 items-center gap-2 rounded-full border border-star-yellow/40 px-5 text-xs font-bold uppercase tracking-widest text-star-yellow hover:bg-star-white/10"
+          >
+            <MapPin className="size-4" aria-hidden="true" />
+            Apri in Google Maps
+            <span className="sr-only">(si apre in una nuova scheda)</span>
+          </a>
           <iframe
             title="Mappa del ricevimento a Parco della Vittoria"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2792.636723005382!2d12.012298500000002!3d45.5777435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4779336b67613c85%3A0xfc14c8d27ebaddd5!2sParco%20della%20Vittoria!5e0!3m2!1sit!2sit!4v1792751661659!5m2!1sit!2sit"
-            className="h-128 w-full rounded-lg border-0"
+            className="h-72 w-full rounded-lg border-0 md:h-96"
             allowFullScreen
             loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"

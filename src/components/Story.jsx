@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 const excludedPhotoFiles = new Set([
   'constellation-desktop.png',
@@ -32,16 +33,19 @@ const photoGarlands = Array.from(
   (_, index) => albumPhotos.slice(index * photosPerGarland, (index + 1) * photosPerGarland)
 )
 
-function PhotoModal({ photo, onClose }) {
+function PhotoModal({ photo, onClose, onPrevious, onNext, returnFocusRef }) {
   const dialogRef = useRef(null)
 
   useEffect(() => {
     const previousBodyOverflow = document.body.style.overflow
     const previousDocumentOverflow = document.documentElement.style.overflow
     const dialog = dialogRef.current
+    const returnFocusTarget = returnFocusRef.current
     if (!dialog) return
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') onClose()
+      if (event.key === 'ArrowLeft') onPrevious()
+      if (event.key === 'ArrowRight') onNext()
     }
 
     document.body.style.overflow = 'hidden'
@@ -60,11 +64,12 @@ function PhotoModal({ photo, onClose }) {
       dialog.removeEventListener('cancel', handleCancel)
       window.removeEventListener('keydown', handleKeyDown)
       if (dialog.open) dialog.close()
+      returnFocusTarget?.focus({ preventScroll: true })
       document.body.style.overflow = previousBodyOverflow
       document.documentElement.style.overflow = previousDocumentOverflow
       window.lenis?.start()
     }
-  }, [onClose])
+  }, [onClose, onPrevious, onNext, returnFocusRef])
 
   return createPortal(
     <dialog
@@ -79,15 +84,34 @@ function PhotoModal({ photo, onClose }) {
         type="button"
         onClick={onClose}
         aria-label="Chiudi foto"
-        className="absolute right-4 top-4 z-10 rounded-full bg-black/60 px-4 py-2 text-sm font-semibold text-white hover:bg-black/80"
+        className="absolute right-4 top-4 z-10 flex size-12 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 cursor-pointer"
       >
-        Chiudi ✕
+        <X className="size-6" aria-hidden="true" />
       </button>
       <img
         src={photo.image}
         alt={photo.title}
         className="photo-modal__image"
       />
+      <button
+        type="button"
+        onClick={onPrevious}
+        aria-label="Foto precedente"
+        className="absolute left-3 top-1/2 z-10 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 cursor-pointer"
+      >
+        <ChevronLeft className="size-7" aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        onClick={onNext}
+        aria-label="Foto successiva"
+        className="absolute right-3 top-1/2 z-10 flex size-12 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white hover:bg-black/80 cursor-pointer"
+      >
+        <ChevronRight className="size-7" aria-hidden="true" />
+      </button>
+      <p className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-4 py-1 text-sm text-white" aria-live="polite">
+        {photo.id} / {albumPhotos.length}
+      </p>
     </dialog>,
     document.body
   )
@@ -96,7 +120,17 @@ function PhotoModal({ photo, onClose }) {
 export default function Story() {
   const sectionRef = useRef(null)
   const [selectedPhoto, setSelectedPhoto] = useState(null)
+  const lastTriggerRef = useRef(null)
   const closePhoto = useCallback(() => setSelectedPhoto(null), [])
+  const showRelativePhoto = useCallback((step) => {
+    setSelectedPhoto((current) => {
+      if (!current) return current
+      const index = (current.id - 1 + step + albumPhotos.length) % albumPhotos.length
+      return albumPhotos[index]
+    })
+  }, [])
+  const showPreviousPhoto = useCallback(() => showRelativePhoto(-1), [showRelativePhoto])
+  const showNextPhoto = useCallback(() => showRelativePhoto(1), [showRelativePhoto])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -108,7 +142,10 @@ export default function Story() {
       if (!photoButton) return
 
       const photo = albumPhotos.find((item) => item.id === Number(photoButton.dataset.photoId))
-      if (photo) setSelectedPhoto(photo)
+      if (photo) {
+        lastTriggerRef.current = photoButton
+        setSelectedPhoto(photo)
+      }
     }
 
     section.addEventListener('click', handlePhotoClick)
@@ -145,13 +182,13 @@ export default function Story() {
     >
       <div className="w-full max-w-6xl">
         <header className="mb-12 text-center md:mb-16">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-star-white/80">
+          <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-white drop-shadow-hero-title">
             I nostri ricordi
           </p>
-          <h2 className="font-heading text-5xl text-star-white md:text-7xl">
+          <h2 className="font-heading text-5xl text-white drop-shadow-hero-title md:text-7xl">
             Il nostro album
           </h2>
-          <p className="mt-3 text-base text-star-white/90 md:text-lg">
+          <p className="mt-3 text-base text-white drop-shadow-hero-title md:text-lg">
             Piccoli momenti appesi alla nostra storia. Tocca una foto per ingrandirla.
           </p>
         </header>
@@ -168,7 +205,15 @@ export default function Story() {
           ))}
         </div>
       </div>
-      {selectedPhoto && <PhotoModal photo={selectedPhoto} onClose={closePhoto} />}
+      {selectedPhoto && (
+        <PhotoModal
+          photo={selectedPhoto}
+          onClose={closePhoto}
+          onPrevious={showPreviousPhoto}
+          onNext={showNextPhoto}
+          returnFocusRef={lastTriggerRef}
+        />
+      )}
     </section>
   )
 }

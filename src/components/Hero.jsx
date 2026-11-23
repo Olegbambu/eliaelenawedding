@@ -197,7 +197,7 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 h-svh w-full pointer-events-none overflow-hidden md:hidden">
         <img
           src={constellationMobile}
-          alt="Costellazione Mobile"
+          alt=""
           className="bg-constellation-mobile w-full h-svh object-cover object-center mix-blend-screen"
         />
       </div>
@@ -205,12 +205,13 @@ export default function Hero() {
       <div className="absolute inset-0 z-0 h-dvh w-full hidden md:block pointer-events-none overflow-hidden">
         <img
           src={constellationDesktop}
-          alt="Costellazione Desktop"
+          alt=""
           className="bg-constellation-desktop w-full h-dvh object-cover object-center mix-blend-screen"
         />
       </div>
 
       <canvas
+        aria-hidden="true"
         ref={canvasRef}
         className="absolute inset-0 w-full h-svh pointer-events-none z-10"
       />
