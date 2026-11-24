@@ -85,13 +85,18 @@ export const faq = [
     placeholder: true,
   },
   {
-    question: 'Ci sono alloggi vicini?',
-    answer: 'Sì, ci sono alcuni hotel e B&B a Trebaseleghe e dintorni. Scriveteci e vi diamo qualche consiglio.',
+    question: 'Come faccio a comunicare quanti saremo?',
+    answer: 'Basta schiacciare il pulsante + oppure - e il conteggio si aggiornerà automaticamente.',
     placeholder: true,
   },
   {
-    question: 'Posso portare i bambini?',
-    answer: 'Certo! Indicate nel modulo quante persone siete, bambini compresi.',
+    question: 'Devo compilare un form per persona della mia famiglia?',
+    answer: 'Non ce n\'è bisogno, nel momento che metti quanti siete il form si adatta automaticamente e ti permette di inserire i nomi di tutti.',
+    placeholder: true,
+  },
+  {
+    question: 'Dove è la lista nozze?',
+    answer: 'Non abbiamo una lista nozze tradizionale: se volete farci un regalo, potete usare il nostro IBAN per contribuire al nostro viaggio di nozze.',
     placeholder: true,
   },
   {
