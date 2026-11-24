@@ -11,7 +11,8 @@ import Story from './components/Story'
 import Faq from './components/Faq'
 import Gifts from './components/Gifts'
 import Footer from './components/Footer'
-import ButterflyBackground from './components/ButterflyBackground'
+import DeepSky from './components/DeepSky'
+import { setupButtonFx, setupHandwrittenHeadings } from './lib/motionFx'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -45,7 +46,20 @@ export default function App() {
       })
     })
 
+    const stopButtonFx = setupButtonFx()
+    // Wait for the script font, so the headings are measured at their real width.
+    let stopHeadings = () => {}
+    let cancelled = false
+    document.fonts.ready.then(() => {
+      if (cancelled) return
+      stopHeadings = setupHandwrittenHeadings()
+      ScrollTrigger.refresh()
+    })
+
     return () => {
+      cancelled = true
+      stopButtonFx()
+      stopHeadings()
       ctx.revert()
       gsap.ticker.remove(updateRaf)
       lenis.destroy()
@@ -56,7 +70,7 @@ export default function App() {
   return (
     <div className="sky-page relative isolate min-h-screen text-ink antialiased">
       <Navbar />
-      <ButterflyBackground />
+      <DeepSky />
       <main className="relative z-10">
         <Hero />
         <Schedule />

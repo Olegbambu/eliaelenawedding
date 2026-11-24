@@ -21,10 +21,39 @@ const gallery = [...storyFiles.map(getPhoto).filter(Boolean), ...stripPhotos].ma
 }))
 const galleryIndex = new Map(gallery.map((photo, index) => [photo.file, index]))
 
+// Mouse only: the print tips toward the pointer, the gloss and shadow follow it.
+function tiltToward(event) {
+  if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  const button = event.currentTarget
+  const rect = button.getBoundingClientRect()
+  const x = (event.clientX - rect.left) / rect.width - 0.5
+  const y = (event.clientY - rect.top) / rect.height - 0.5
+  button.classList.add('is-tilting')
+  button.style.setProperty('--rx', `${(-y * 18).toFixed(2)}deg`)
+  button.style.setProperty('--ry', `${(x * 18).toFixed(2)}deg`)
+  button.style.setProperty('--gx', `${((x + 0.5) * 100).toFixed(1)}%`)
+  button.style.setProperty('--gy', `${((y + 0.5) * 100).toFixed(1)}%`)
+  button.style.setProperty('--sx', (-x * 24).toFixed(1))
+  button.style.setProperty('--sy', (-y * 16).toFixed(1))
+}
+
+function settle(event) {
+  const button = event.currentTarget
+  button.classList.remove('is-tilting')
+  for (const name of ['--rx', '--ry', '--gx', '--gy', '--sx', '--sy']) button.style.removeProperty(name)
+}
+
 function Photo({ photo, tilt, onOpen }) {
   return (
-    <button type="button" className="photo-button" onClick={(event) => onOpen(photo.file, event.currentTarget)}>
+    <button
+      type="button"
+      className="photo-button"
+      onClick={(event) => onOpen(photo.file, event.currentTarget)}
+      onPointerMove={tiltToward}
+      onPointerLeave={settle}
+    >
       <span className={`polaroid ${tilt}`}>
+        <Sparkle className="polaroid__star" />
         <img
           srcSet={photo.srcSet}
           sizes="(min-width: 768px) 15rem, 60vw"
@@ -150,14 +179,14 @@ export default function Story() {
             <span className="hidden md:inline">Usa le frecce per scorrere e clicca una foto per ingrandirla.</span>
           </p>
           <div className="mt-4 hidden justify-center gap-3 md:flex">
-            <button type="button" onClick={() => scrollStrip(-1)} aria-label="Foto precedenti" className="btn-ghost size-12 px-0">
+            <button type="button" onClick={() => scrollStrip(-1)} aria-label="Foto precedenti" className="btn-icon btn-icon--outline">
               <ChevronLeft className="size-6" aria-hidden="true" />
             </button>
-            <button type="button" onClick={() => scrollStrip(1)} aria-label="Foto successive" className="btn-ghost size-12 px-0">
+            <button type="button" onClick={() => scrollStrip(1)} aria-label="Foto successive" className="btn-icon btn-icon--outline">
               <ChevronRight className="size-6" aria-hidden="true" />
             </button>
           </div>
-          <div ref={stripRef} className="photo-strip mx-auto mt-2 max-w-6xl" data-lenis-prevent-wheel>
+          <div ref={stripRef} className="photo-strip mx-auto mt-2 max-w-6xl">
             {stripPhotos.map((photo, index) => (
               <Photo
                 key={photo.file}

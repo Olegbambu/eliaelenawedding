@@ -1,4 +1,4 @@
-import { CalendarPlus, MapPin, Navigation } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import DraftBadge from './DraftBadge'
 import { schedule, wedding } from '../content'
 
@@ -67,14 +67,12 @@ export default function Schedule() {
               {wedding.venue.name}
             </h3>
             <p className="mt-1 text-ink-soft">{wedding.venue.address}</p>
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <a href={wedding.venue.mapsUrl} target="_blank" rel="noopener noreferrer" className="btn-star">
-                <Navigation className="size-4" aria-hidden="true" />
+            <div className="mt-5 flex flex-col items-center gap-3 sm:flex-row sm:gap-6">
+              <a href={wedding.venue.mapsUrl} target="_blank" rel="noopener noreferrer" className="btn-star w-full sm:w-auto">
                 Indicazioni
                 <span className="sr-only">(si apre Google Maps)</span>
               </a>
               <button type="button" onClick={downloadCalendarEvent} className="btn-ghost">
-                <CalendarPlus className="size-4" aria-hidden="true" />
                 Salva nel calendario
               </button>
             </div>

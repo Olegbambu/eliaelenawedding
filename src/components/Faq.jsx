@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react'
+import Sparkle from './Sparkle'
 import DraftBadge from './DraftBadge'
 import { faq } from '../content'
 
@@ -9,12 +9,12 @@ export default function Faq() {
       <div className="faq-list reveal mt-10 border-t border-ink-soft/20">
         {faq.map((item) => (
           <details key={item.question} className="faq-item border-b border-ink-soft/20">
-            <summary className="flex min-h-16 items-center justify-between gap-4 py-4 text-lg font-bold text-ink hover:text-star">
-              <span>
+            <summary className="flex min-h-16 items-center justify-between gap-4 py-4 text-lg font-bold text-ink">
+              <span className="faq-question">
                 {item.question}
                 <DraftBadge show={item.placeholder} />
               </span>
-              <Plus className="faq-icon size-6 shrink-0 text-star" aria-hidden="true" />
+              <Sparkle className="faq-icon size-5 shrink-0" />
             </summary>
             <p className="pb-5 text-ink-soft">{item.answer}</p>
           </details>

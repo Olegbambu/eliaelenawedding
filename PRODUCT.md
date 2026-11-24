@@ -29,7 +29,7 @@ A personal site, not a template: it carries the couple's own constellation illus
 ## Brand Commitments
 - La La Land theme is binding: night sky with stars, the couple's constellation illustration (`src/assets/constellation-*.png`), star yellow and purple sunset colours.
 - Script headings (Alex Brush) with Lato body text.
-- Butterflies stay, but more discreet than today.
+- No butterflies (removed November 2026: off-theme). The sky carries the ambient motion: twinkling stars and the occasional shooting star.
 
 ## Evidence on Hand
 - 19 real photos of the couple in `src/assets/`.

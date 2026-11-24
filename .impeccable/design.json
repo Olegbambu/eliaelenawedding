@@ -291,12 +291,12 @@
       {
         "name": "duration-control",
         "value": "150ms",
-        "purpose": "Buttons, fields, choice tiles."
+        "purpose": "Button colour, ghost underline, field hover."
       },
       {
         "name": "duration-disclosure",
         "value": "250-320ms",
-        "purpose": "FAQ icon and height, polaroid lift, photo viewer entrance."
+        "purpose": "FAQ sparkle and height, RSVP reveal, field focus line, polaroid lift, photo viewer entrance."
       },
       {
         "name": "duration-node",
@@ -352,44 +352,44 @@
   },
   "components": [
     {
-      "name": "Primary Button",
+      "name": "Primary Button (ticket)",
       "kind": "button",
       "refersTo": "btn-star",
-      "description": "Star-yellow pill for the one action per decision.",
+      "description": "Star-yellow ticket with a 4px print corner and a leading sparkle, one per decision.",
       "html": "<button class=\"ds-btn-star\">Conferma la presenza</button>",
-      "css": ".ds-btn-star{display:inline-flex;min-height:3rem;align-items:center;justify-content:center;gap:0.5rem;border-radius:999px;font-family:Lato,sans-serif;font-size:1.0625rem;font-weight:700;letter-spacing:0.02em;cursor:pointer;transition:background-color 150ms ease,transform 150ms cubic-bezier(0.16,1,0.3,1);border:0;background:#ffe45e;color:#0d0430;padding:0 1.75rem;}.ds-btn-star:hover{background:#fff3b0;}.ds-btn-star:active{transform:scale(0.97);}.ds-btn-star:focus-visible{outline:2px solid #ffe45e;outline-offset:3px;}.ds-btn-star:disabled{opacity:0.6;cursor:wait;}"
+      "css": ".ds-btn-star{display:inline-flex;min-height:3.25rem;align-items:center;justify-content:center;gap:0.65rem;border:0;border-radius:4px;background:#ffe45e;color:#0d0430;padding:0 1.75rem;font-family:Lato,sans-serif;font-size:1.0625rem;font-weight:700;cursor:pointer;transition:background-color 150ms ease,translate 120ms cubic-bezier(0.16,1,0.3,1);}.ds-btn-star::before{content:'';flex:none;width:0.75rem;height:0.75rem;background:currentColor;mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'%3E%3Cpath d='M0 -10 L2.2 -2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2 -2.2 Z'/%3E%3C/svg%3E\") center / contain no-repeat;transition:rotate 400ms cubic-bezier(0.16,1,0.3,1);}.ds-btn-star:hover{background:#fff3b0;}.ds-btn-star:hover::before{rotate:45deg;}.ds-btn-star:active{translate:0 1px;}.ds-btn-star:focus-visible{outline:2px solid #ffe45e;outline-offset:3px;}.ds-btn-star:disabled{opacity:0.7;cursor:wait;}"
     },
     {
-      "name": "Ghost Button",
+      "name": "Ghost Button (written link)",
       "kind": "button",
       "refersTo": "btn-ghost",
-      "description": "Hairline star pill for the secondary path beside a primary.",
+      "description": "No box: underlined star-yellow words with a sparkle that lights on hover, for the secondary path.",
       "html": "<button class=\"ds-btn-ghost\">Programma e luogo</button>",
-      "css": ".ds-btn-ghost{display:inline-flex;min-height:3rem;align-items:center;justify-content:center;gap:0.5rem;border-radius:999px;font-family:Lato,sans-serif;font-size:1.0625rem;font-weight:700;letter-spacing:0.02em;cursor:pointer;transition:background-color 150ms ease,transform 150ms cubic-bezier(0.16,1,0.3,1);background:transparent;border:1px solid rgb(255 228 94 / 45%);color:#ffe45e;padding:0 1.5rem;}.ds-btn-ghost:hover{background:rgb(255 228 94 / 10%);}.ds-btn-ghost:active{transform:scale(0.97);}.ds-btn-ghost:focus-visible{outline:2px solid #ffe45e;outline-offset:3px;}"
+      "css": ".ds-btn-ghost{display:inline-flex;min-height:3rem;align-items:center;justify-content:center;gap:0.6rem;border:0;background:none;padding:0 0.25rem;color:#ffe45e;font-family:Lato,sans-serif;font-size:1.0625rem;font-weight:700;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;text-decoration-color:rgb(255 228 94 / 45%);transition:text-decoration-color 150ms ease;}.ds-btn-ghost::before{content:'';flex:none;width:0.7rem;height:0.7rem;background:currentColor;mask:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-10 -10 20 20'%3E%3Cpath d='M0 -10 L2.2 -2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2 -2.2 Z'/%3E%3C/svg%3E\") center / contain no-repeat;opacity:0.55;scale:0.6;transition:opacity 250ms ease,scale 350ms cubic-bezier(0.16,1,0.3,1);}.ds-btn-ghost:hover{text-decoration-color:#ffe45e;}.ds-btn-ghost:hover::before,.ds-btn-ghost:focus-visible::before{opacity:1;scale:1;}.ds-btn-ghost:focus-visible{outline:2px solid #ffe45e;outline-offset:3px;}"
     },
     {
-      "name": "Text Field",
+      "name": "Text Field (writing line)",
       "kind": "input",
       "refersTo": "field",
-      "description": "Night-filled rounded field with a lavender hairline and star focus.",
-      "html": "<label class=\"ds-label\" for=\"ds-name\">Nome e cognome</label><input id=\"ds-name\" class=\"ds-field\" placeholder=\"Nome e cognome\">",
-      "css": ".ds-label{display:block;margin-bottom:0.5rem;font-family:Lato,sans-serif;font-weight:700;color:#f8f4ff;}.ds-field{width:100%;border-radius:12px;border:1px solid rgb(210 200 243 / 35%);background:#0d0430;padding:0.85rem 1rem;color:#f8f4ff;font-family:Lato,sans-serif;font-size:1rem;caret-color:#ffe45e;transition:border-color 150ms ease,background-color 150ms ease;}.ds-field::placeholder{color:rgb(210 200 243 / 70%);}.ds-field:hover{border-color:rgb(210 200 243 / 60%);}.ds-field:focus{outline:none;border-color:#ffe45e;background:#12053a;}"
+      "description": "A line to write on: lavender rest line, a star-yellow line drawn from the left on focus, apricot when invalid.",
+      "html": "<label class=\"ds-label\" for=\"ds-name\">Nome e cognome</label><input id=\"ds-name\" class=\"ds-field\" type=\"text\">",
+      "css": ".ds-label{display:block;font-family:Lato,sans-serif;font-weight:700;color:#f8f4ff;}.ds-field{--line:rgb(210 200 243 / 45%);width:100%;border:0;border-radius:0;background-color:transparent;background-image:linear-gradient(#ffe45e,#ffe45e),linear-gradient(var(--line),var(--line));background-repeat:no-repeat;background-position:left bottom;background-size:0% 2px,100% 1.5px;padding:0.7rem 0 0.6rem;color:#f8f4ff;font-family:Lato,sans-serif;font-size:1.0625rem;caret-color:#ffe45e;transition:background-size 280ms cubic-bezier(0.16,1,0.3,1);}.ds-field::placeholder{color:rgb(210 200 243 / 70%);}.ds-field:hover{--line:rgb(210 200 243 / 75%);}.ds-field:focus{outline:none;background-size:100% 2px,100% 1.5px;}.ds-field[aria-invalid='true']{--line:#ffb37c;}"
     },
     {
-      "name": "Attendance Choice",
+      "name": "Attendance Rows",
       "kind": "chip",
-      "refersTo": "choice-tile",
-      "description": "Two-option radio tiles; the selected one flips to star yellow.",
-      "html": "<div class=\"ds-choices\"><label class=\"ds-choice ds-choice--on\"><input type=\"radio\" name=\"ds-a\" checked>Ci sarò</label><label class=\"ds-choice\"><input type=\"radio\" name=\"ds-a\">Non potrò</label></div>",
-      "css": ".ds-choices{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}.ds-choice{position:relative;display:flex;min-height:3.5rem;align-items:center;justify-content:center;border-radius:12px;border:1px solid rgb(210 200 243 / 35%);background:#0d0430;color:#f8f4ff;font-family:Lato,sans-serif;font-weight:700;cursor:pointer;transition:border-color 150ms,background-color 150ms,color 150ms;}.ds-choice input{position:absolute;opacity:0;width:1px;height:1px;}.ds-choice:hover{border-color:rgb(210 200 243 / 70%);}.ds-choice--on{border-color:#ffe45e;background:#ffe45e;color:#0d0430;}.ds-choice:has(input:focus-visible){outline:2px solid #ffe45e;outline-offset:3px;}"
+      "refersTo": "attendance-row",
+      "description": "Two full-width rows with a round socket; the chosen one fills with a star-yellow sparkle. Nothing preselected.",
+      "html": "<div class=\"ds-rows\"><label class=\"ds-row ds-row--on\"><input type=\"radio\" name=\"ds-a\"><span class=\"ds-socket\"><svg viewBox=\"-10 -10 20 20\"><path d=\"M0 -10 L2.2 -2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2 -2.2 Z\" fill=\"currentColor\"/></svg></span>Ci sarò, con gioia</label><label class=\"ds-row\"><input type=\"radio\" name=\"ds-a\"><span class=\"ds-socket\"><svg viewBox=\"-10 -10 20 20\"><path d=\"M0 -10 L2.2 -2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2 -2.2 Z\" fill=\"currentColor\"/></svg></span>Purtroppo non potrò</label></div>",
+      "css": ".ds-rows{display:grid;}.ds-row{display:flex;min-height:4rem;align-items:center;gap:1rem;border-bottom:1px solid rgb(210 200 243 / 20%);color:#f8f4ff;font-family:Lato,sans-serif;font-size:1.125rem;font-weight:700;cursor:pointer;transition:color 150ms;}.ds-row:last-child{border-bottom:0;}.ds-row input{position:absolute;opacity:0;width:1px;height:1px;}.ds-socket{display:flex;width:1.75rem;height:1.75rem;flex:none;align-items:center;justify-content:center;border:1.5px solid rgb(210 200 243 / 60%);border-radius:999px;}.ds-socket svg{width:1rem;height:1rem;color:#ffe45e;opacity:0;scale:0.4;transition:opacity 300ms,scale 300ms cubic-bezier(0.16,1,0.3,1);}.ds-row--on{color:#ffe45e;}.ds-row--on .ds-socket{border-color:#ffe45e;}.ds-row--on .ds-socket svg{opacity:1;scale:1;}.ds-row:has(input:focus-visible){outline:2px solid #ffe45e;outline-offset:2px;}"
     },
     {
       "name": "Panel",
       "kind": "card",
       "refersTo": "panel",
-      "description": "Solid indigo surface with a faint star hairline, for the RSVP and venue cards.",
-      "html": "<div class=\"ds-panel\"><h3 class=\"ds-panel-title\">Ci sarai?</h3><p class=\"ds-panel-text\">Fatecelo sapere entro il 14 aprile 2027.</p></div>",
-      "css": ".ds-panel{background:#1b0b52;border:1px solid rgb(255 228 94 / 18%);border-radius:16px;padding:2.5rem 1.25rem;text-align:center;}.ds-panel-title{margin:0;font-family:'Alex Brush',cursive;font-weight:400;font-size:3.75rem;line-height:1.05;color:#f8f4ff;}.ds-panel-text{margin:1rem 0 0;font-family:Lato,sans-serif;color:#d2c8f3;}"
+      "description": "The venue card only: a flat indigo print with a 4px corner and no outline. The RSVP sits on the sky.",
+      "html": "<div class=\"ds-panel\"><p class=\"ds-panel-title\">Parco della Vittoria</p><p class=\"ds-panel-text\">Via Bigolo 17/19, Trebaseleghe (PD)</p></div>",
+      "css": ".ds-panel{background:#1b0b52;border-radius:4px;padding:1.5rem;}.ds-panel-title{margin:0;font-family:Lato,sans-serif;font-weight:700;font-size:1.125rem;color:#f8f4ff;}.ds-panel-text{margin:0.25rem 0 0;font-family:Lato,sans-serif;color:#d2c8f3;}"
     },
     {
       "name": "Navigation",
@@ -397,13 +397,13 @@
       "refersTo": "nav",
       "description": "Fixed night bar (once scrolled) with the star E & E mark; current link in star yellow with a sparkle.",
       "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-mark\" href=\"#\"><span class=\"ds-script\">E</span> &amp; <span class=\"ds-script\">E</span></a><ul class=\"ds-nav-links\"><li><a href=\"#\" aria-current=\"location\">Programma<svg viewBox=\"-10 -10 20 20\" width=\"16\" height=\"16\" aria-hidden=\"true\"><path d=\"M0 -10 L2.2 -2.2 L10 0 L2.2 2.2 L0 10 L-2.2 2.2 L-10 0 L-2.2 -2.2 Z\" fill=\"currentColor\"/></svg></a></li><li><a href=\"#\">Conferma</a></li><li><a href=\"#\">Storia</a></li></ul></nav>",
-      "css": ".ds-nav{display:flex;height:4rem;align-items:center;justify-content:space-between;padding:0 1.25rem;background:rgb(8 2 29 / 92%);backdrop-filter:blur(12px);border-bottom:1px solid rgb(255 228 94 / 15%);font-family:Lato,sans-serif;}.ds-nav-mark{font-size:2.25rem;color:#ffe45e;text-decoration:none;}.ds-script{font-family:'Alex Brush',cursive;}.ds-nav-links{display:flex;gap:1.75rem;list-style:none;margin:0;padding:0;}.ds-nav-links a{position:relative;padding:0.5rem 0;font-size:0.875rem;font-weight:700;color:#d2c8f3;text-decoration:none;transition:color 150ms;}.ds-nav-links a:hover{color:#f8f4ff;}.ds-nav-links a[aria-current]{color:#ffe45e;}.ds-nav-links svg{position:absolute;left:50%;bottom:-0.5rem;width:10px;height:10px;transform:translateX(-50%);color:#ffe45e;}.ds-nav-links a:focus-visible{outline:2px solid #ffe45e;outline-offset:3px;}"
+      "css": ".ds-nav{display:flex;height:4rem;align-items:center;justify-content:space-between;padding:0 1.25rem;background:rgb(8 2 29 / 96%);border-bottom:1px solid rgb(255 228 94 / 15%);font-family:Lato,sans-serif;}.ds-nav-mark{font-size:2.25rem;color:#ffe45e;text-decoration:none;}.ds-script{font-family:'Alex Brush',cursive;}.ds-nav-links{display:flex;gap:1.75rem;list-style:none;margin:0;padding:0;}.ds-nav-links a{position:relative;padding:0.5rem 0;font-size:0.875rem;font-weight:700;color:#d2c8f3;text-decoration:none;transition:color 150ms;}.ds-nav-links a:hover{color:#f8f4ff;}.ds-nav-links a[aria-current]{color:#ffe45e;}.ds-nav-links svg{position:absolute;left:50%;bottom:-0.5rem;width:10px;height:10px;transform:translateX(-50%);color:#ffe45e;}.ds-nav-links a:focus-visible{outline:2px solid #ffe45e;outline-offset:3px;}"
     },
     {
       "name": "Polaroid",
       "kind": "custom",
       "refersTo": "polaroid",
-      "description": "Tilted paper print that straightens and lifts on hover; opens the photo viewer.",
+      "description": "Paper print with alternating tilt; on hover it tips toward the pointer in 3D, lifts, catches a gloss highlight and lights a gold star on its lip.",
       "html": "<button class=\"ds-photo\" aria-label=\"Ingrandisci\"><span class=\"ds-polaroid\"><span class=\"ds-polaroid-img\"></span></span></button>",
       "css": ".ds-photo{display:block;width:12rem;border:0;padding:0;background:none;cursor:zoom-in;}.ds-polaroid{display:block;padding:0.45rem 0.45rem 1.6rem;border-radius:4px;background:#fffdf8;box-shadow:0 10px 24px rgb(5 0 25 / 45%);transform:rotate(-2deg);transition:transform 300ms cubic-bezier(0.16,1,0.3,1),box-shadow 300ms cubic-bezier(0.16,1,0.3,1);}.ds-polaroid-img{display:block;aspect-ratio:4/5;border-radius:2px;background:linear-gradient(160deg,#3b1a8a,#e06f86);}.ds-photo:hover .ds-polaroid,.ds-photo:focus-visible .ds-polaroid{transform:rotate(0deg) translateY(-4px);box-shadow:0 16px 32px rgb(5 0 25 / 55%);}.ds-photo:focus-visible{outline:2px solid #ffe45e;outline-offset:3px;}"
     },
@@ -430,9 +430,9 @@
     "keyCharacteristics": [
       "The page background is a single vertical night-to-sunset gradient, not per-section fills.",
       "Star yellow (`star`) is reserved for actions, focus, and the few facts guests need at a glance.",
-      "Solid indigo panels with a faint star-yellow hairline; no glass, no blur on content.",
+      "Few containers: the RSVP sits straight on the sky; the venue card is a solid indigo print with a 4px corner and no outline. No glass, no blur.",
       "Alex Brush for headings only; Lato for everything a guest reads to act.",
-      "The four-point sparkle is the world's only ornament glyph, reused from hero to timeline to nav.",
+      "The four-point sparkle is the world's only ornament glyph, reused from hero to timeline to nav, and on every control a guest touches: buttons, the attendance choice, the FAQ.",
       "Real photos as white-bordered polaroids with a slight alternating tilt."
     ],
     "rules": [
@@ -465,7 +465,7 @@
     "dos": [
       "**Do** let the single night-to-sunset page gradient be every section's background.",
       "**Do** keep star yellow for actions, focus, times and the date; everything else ink or lavender.",
-      "**Do** use one `btn-star` per decision and pair it with a `btn-ghost` for the secondary path.",
+      "**Do** use one `btn-star` ticket per decision and pair it with a `btn-ghost` written link for the secondary path.",
       "**Do** keep every tap target at least 48px tall and body text at least 1rem.",
       "**Do** put facts in Lato and feelings in Alex Brush.",
       "**Do** show photos as tilted polaroids that straighten on hover and open the viewer.",
@@ -479,6 +479,8 @@
       "**Don't** add shadows, glass or blur to panels and fields; only photographs cast shadows.",
       "**Don't** paint sections with their own background colour.",
       "**Don't** let butterflies or the starfield cover the content column or delay interaction.",
+      "**Don't** use pills, boxed rounded fields, uppercase tracked labels or lucide icons inside labelled buttons: they are the generic-UI anti-reference for controls.",
+      "**Don't** preselect an answer the guest has to give.",
       "**Don't** ship the pink \"bozza\" draft badge style as part of the system: it is a dev-only marker for placeholder copy, rendered only in development, and placeholder copy must be replaced before publishing."
     ]
   }

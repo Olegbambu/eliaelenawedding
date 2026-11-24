@@ -44,8 +44,7 @@ export default function PhotoModal({ photos, index, onClose, onChange, returnFoc
     }
   }, [onClose, returnFocusRef])
 
-  const buttonClass =
-    'absolute z-10 flex size-12 items-center justify-center rounded-full bg-night-900/80 text-ink hover:bg-night-800 cursor-pointer'
+  const buttonClass = 'btn-icon absolute z-10 drop-shadow-[0_2px_6px_rgb(8_2_29/80%)]'
 
   return createPortal(
     <dialog
@@ -73,7 +72,7 @@ export default function PhotoModal({ photos, index, onClose, onChange, returnFoc
         <button type="button" onClick={() => step(-1)} aria-label="Foto precedente" className={`${buttonClass} static`}>
           <ChevronLeft className="size-7" aria-hidden="true" />
         </button>
-        <p className="min-w-16 text-center text-sm tabular-nums text-ink-soft" aria-live="polite">
+        <p className="min-w-16 text-center tabular-nums text-ink-soft" aria-live="polite">
           {index + 1} / {photos.length}
         </p>
         <button type="button" onClick={() => step(1)} aria-label="Foto successiva" className={`${buttonClass} static`}>
