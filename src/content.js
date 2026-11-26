@@ -6,7 +6,7 @@ export const wedding = {
   couple: 'Elia & Elena',
   dateISO: '2027-05-14T15:30:00+02:00',
   dateLabel: '14 maggio 2027',
-  rsvpDeadline: '14 aprile 2027',
+  rsvpDeadline: '14 marzo 2027',
   venue: {
     name: 'Parco della Vittoria',
     address: 'Via Bigolo 17/19, 35010 Trebaseleghe (PD)',
@@ -20,10 +20,10 @@ export const wedding = {
 
 export const schedule = [
   { time: '15:30', title: 'Cerimonia', note: 'Nel giardino del parco' },
-  { time: '16:30', title: 'Aperitivo', note: 'Brindisi sotto gli alberi', placeholder: true },
-  { time: '19:30', title: 'Cena', note: 'Nella sala del parco', placeholder: true },
-  { time: '22:00', title: 'Taglio della torta', note: '', placeholder: true },
-  { time: '22:30', title: 'Si balla', note: 'Fino a quando ci reggono le gambe', placeholder: true },
+  { time: '16:30', title: 'Aperitivo', note: 'Brindisi nel boschetto' },
+  { time: '19:30', title: 'Cena', note: 'Immersi nella natura' },
+  { time: '22:00', title: 'Taglio della torta', note: '' },
+  { time: '22:30', title: 'Si balla', note: 'Fino a quando ci reggono le gambe' },
 ]
 
 // `photos` are file names in src/assets.
@@ -31,30 +31,26 @@ export const story = [
   {
     date: 'Giugno 2019',
     title: 'Il primo selfie',
-    text: 'Una sera d’estate, una foto storta e la sensazione che sarebbe stata la prima di tante.',
+    text: 'Quando ancora eravamo semplici amici.',
     photos: ['IMG_20190626_201215.jpg'],
-    placeholder: true,
   },
   {
     date: 'Estate 2020',
     title: 'Inseparabili',
-    text: 'L’anno in cui il mondo si è fermato e noi abbiamo imparato a stare bene anche solo in due.',
+    text: 'Vicini nonostante la "distanza".',
     photos: ['IMG_20200626_090711.jpg', 'IMG_20200907_170240.jpg'],
-    placeholder: true,
   },
   {
     date: 'Venezia',
-    title: 'Il primo viaggio',
-    text: 'Calli, vaporetti e una giornata di sole che ricordiamo ancora.',
+    title: 'Gita fuori porta',
+    text: 'In giro per Venezia.',
     photos: ['IMG_6627.jpg'],
-    placeholder: true,
   },
   {
     date: 'Al mare',
-    title: 'Il nostro tramonto',
-    text: 'Il cielo diventava viola e arancione: da lì è nato il colore di questo sito.',
+    title: 'L’alba degli inizi',
+    text: 'Quand’eravamo giovani e appena "maturi".',
     photos: ['IMG_3207.JPG'],
-    placeholder: true,
   },
   {
     date: '31 dicembre 2025',
@@ -91,7 +87,7 @@ export const faq = [
   },
   {
     question: 'Devo compilare un form per persona della mia famiglia?',
-    answer: 'Non ce n\'è bisogno, nel momento che metti quanti siete il form si adatta automaticamente e ti permette di inserire i nomi di tutti.',
+    answer: 'Non ce n\'è bisogno, nel momento in cui metti quanti siete il form si adatta automaticamente e ti permette di inserire i nomi di tutti.',
     placeholder: true,
   },
   {
@@ -106,6 +102,6 @@ export const faq = [
   },
   {
     question: 'Entro quando devo confermare?',
-    answer: 'Entro il 14 aprile 2027, con il modulo qui sopra. Se cambiate idea, rimandatelo pure.',
+    answer: 'Entro il 14 marzo 2027, con il modulo qui sopra. Se cambiate idea, rimandatelo pure.',
   },
 ]
