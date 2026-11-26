@@ -10,7 +10,7 @@ web
 Wedding guests of Elia and Elena: family and friends of every age, including older relatives. Almost all of them open the site on a phone, from a link shared on WhatsApp. They come to find the date and place, confirm attendance, and look at the couple's photos.
 
 ## Product Purpose
-Single-page wedding website for the wedding of Elia and Elena on 14 May 2027. It tells guests when and where the wedding is, collects RSVPs (deadline 14 April 2027) and shows the IBAN for the honeymoon gift. Success: every guest finds the practical information in seconds on a phone and sends the RSVP without help.
+Single-page wedding website for the wedding of Elia and Elena on 14 May 2027. It tells guests when and where the wedding is, collects RSVPs (deadline 14 March 2027) and shows the IBAN for the honeymoon gift. Success: every guest finds the practical information in seconds on a phone and sends the RSVP without help.
 
 ## Positioning
 A personal site, not a template: it carries the couple's own constellation illustration, their real photos and their La La Land night-sky theme.
@@ -34,7 +34,7 @@ A personal site, not a template: it carries the couple's own constellation illus
 ## Evidence on Hand
 - 19 real photos of the couple in `src/assets/`.
 - Constellation illustration for desktop and mobile.
-- Confirmed facts: 14 May 2027 at 15:30; Parco della Vittoria, Via Bigolo 17/19, 35010 Trebaseleghe (PD); RSVP by 14 April 2027; dress code "vestirsi colorati"; IBAN IT16X0103036270000000717909.
+- Confirmed facts: 14 May 2027 at 15:30; Parco della Vittoria, Via Bigolo 17/19, 35010 Trebaseleghe (PD); RSVP by 14 March 2027; dress code "vestirsi colorati"; IBAN IT16X0103036270000000717909.
 - No testimonials, schedule, story text or FAQ answers exist yet.
 
 ## Product Principles
