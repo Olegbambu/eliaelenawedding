@@ -28,9 +28,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build
-        run: npm run build
+        # Accept the key as a repository secret or, failing that, a repository variable.
+        # Without it Vite drops the RSVP send code and the live form says it is not
+        # configured, so stop the deploy instead of publishing a broken form.
         env:
-          VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
+          VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY || vars.WEB3FORMS_ACCESS_KEY }}
+        run: |
+          if [ -z "$VITE_WEB3FORMS_ACCESS_KEY" ]; then
+            echo "::error::WEB3FORMS_ACCESS_KEY is empty. Add it under Settings > Secrets and variables > Actions > Repository secrets."
+            exit 1
+          fi
+          npm run build
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
